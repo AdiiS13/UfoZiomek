@@ -7,11 +7,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using UfoDigger.GameObjects;
+using System.Runtime.InteropServices;
 
 namespace UfoDigger
 {
     public partial class Form1 : Form
     {
+        [DllImport("user32.dll")]
+        private static extern short GetAsyncKeyState(Keys vKeys);
+
+        public int amountOfMoney = 0;
+        Workbench workbench = new Workbench();
+        DeliveryTime deliveryTime = new DeliveryTime();
+        public bool hasPizzaInHand = false;
+        public bool hasFullTrunk = false;
+        
         public Form1()
         {
             InitializeComponent();
@@ -19,7 +30,9 @@ namespace UfoDigger
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            //włączenie czytania klawiszy
             KeyPreview = true;
+            MakeLabelsInvisible();
         }
 
         private void OnKeyDown(object sender, KeyEventArgs e)
@@ -51,6 +64,108 @@ namespace UfoDigger
 
             if (e.KeyCode == Core.KeyRight)
                 Core.IsRight = false;
+        }
+
+        private void Update(object sender, EventArgs e)
+        {
+            //sprawdzanie czy gracz znajduje się w pobliżu obiektów, z kt może wejść w interakcję
+            if (player1.pictureBox1.RectangleToScreen(player1.pictureBox1.ClientRectangle).IntersectsWith(pictureBoxCar.RectangleToScreen(pictureBoxCar.ClientRectangle)))
+            {
+                if (hasPizzaInHand) //jak ma pizze w ręce to może ją tylko odłożyć
+                {
+                    labelPutDownPizza.Visible = true;
+                    if ((GetAsyncKeyState(Keys.O) & 0x8000) != 0)
+                        PizzaInteractions("o");
+                }
+                else //jak nie ma pizzy w ręce to może przewieźć te co ma zapakowane
+                {
+                    labelDelivery.Visible = true;
+                    if ((GetAsyncKeyState(Keys.C) & 0x8000) != 0)
+                        CarInteractions();
+                }
+            }
+            //jak nie ma pizzy w ręce to może wziąć pizzę
+            else if (!hasPizzaInHand && player1.pictureBox1.RectangleToScreen(player1.pictureBox1.ClientRectangle).IntersectsWith(pictureBoxPizzaTable.RectangleToScreen(pictureBoxPizzaTable.ClientRectangle))) 
+            {
+                labelPickupPizza.Visible = true;
+                if ((GetAsyncKeyState(Keys.P) & 0x8000) != 0)
+                    PizzaInteractions("p");
+            }
+            //jak nie ma pizzy w ręce ORAZ nie ma pełnego bagażnika to może odebrać telefon i przyjąć zamówienie
+            else if (!hasPizzaInHand && !hasFullTrunk && player1.pictureBox1.RectangleToScreen(player1.pictureBox1.ClientRectangle).IntersectsWith(pictureBoxPhone.RectangleToScreen(pictureBoxPhone.ClientRectangle)))
+            {
+                labelPhone.Visible = true;
+                if ((GetAsyncKeyState(Keys.R) & 0x8000) != 0)
+                    PhoneInteractions();
+            }
+            else if (player1.pictureBox1.RectangleToScreen(player1.pictureBox1.ClientRectangle).IntersectsWith(pictureBoxWorkbench.RectangleToScreen(pictureBoxWorkbench.ClientRectangle)))
+            {
+                labelWorkbench.Visible = true;
+                if ((GetAsyncKeyState(Keys.E) & 0x8000) != 0)
+                    WorkbenchInteractions();
+            }
+            else
+                MakeLabelsInvisible();
+        }
+
+        
+
+        private void WorkbenchInteractions()
+        {
+            timerForm1.Enabled = false;
+            player1.timerUpdate.Enabled = false;
+            //pokazuje okienko z dostępnymi ulepszeniami
+            workbench.ShowDialog(this);
+            timerForm1.Enabled = true;
+            player1.timerUpdate.Enabled = true;
+        }
+
+        private void PhoneInteractions()
+        {
+            timerForm1.Enabled = false;
+            player1.timerUpdate.Enabled = false;
+            //TU TREŚĆ FUNKCJI z jakimś przyjmowaniem zamówień
+            timerForm1.Enabled = true;
+            player1.timerUpdate.Enabled = true;
+        }
+
+        private void PizzaInteractions(string x)
+        {
+            timerForm1.Enabled = false;
+            player1.timerUpdate.Enabled = false;
+            //podnoszenie i odkładanie pizzy
+            switch (x)
+            {
+                case "p":
+                    player1.pictureBox1.Image = global::UfoDigger.Properties.Resources.pizzatmp;
+                    hasPizzaInHand = true;
+                    break;
+                case "o":
+                    player1.pictureBox1.Image = global::UfoDigger.Properties.Resources.alien_bubble;
+                    hasPizzaInHand = false;
+                    labelPutDownPizza.Visible = false;
+                    break;
+            }
+            timerForm1.Enabled = true;
+            player1.timerUpdate.Enabled = true;
+        }
+        private void CarInteractions()
+        {
+            timerForm1.Enabled = false;
+            player1.timerUpdate.Enabled = false;
+            //pokazuje okienko z losowo wygenerowaną mapą dostawy - tam się jeździ i dostarcza
+            deliveryTime.ShowDialog(this);
+            timerForm1.Enabled = true;
+            player1.timerUpdate.Enabled = true;
+        }
+        
+        private void MakeLabelsInvisible()
+        {
+            labelWorkbench.Visible = false;
+            labelPickupPizza.Visible = false;
+            labelPutDownPizza.Visible = false; 
+            labelDelivery.Visible = false;
+            labelPhone.Visible = false;
         }
     }
 }

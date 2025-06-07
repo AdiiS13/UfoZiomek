@@ -9,11 +9,12 @@ namespace UfoDigger.GameObjects
 {
     public class Player : UserControl
     {
-        private Timer timerUpdate;
+        public Timer timerUpdate;
         private System.ComponentModel.IContainer components;
-        private PictureBox pictureBox1;
+        public PictureBox pictureBox1;
 
         public int speed = 5;
+        
 
         private void InitializeComponent()
         {
@@ -28,7 +29,8 @@ namespace UfoDigger.GameObjects
             this.pictureBox1.Image = global::UfoDigger.Properties.Resources.alien_bubble;
             this.pictureBox1.Location = new System.Drawing.Point(0, 0);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(64, 64);
+            this.pictureBox1.Size = new System.Drawing.Size(64, 65);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
@@ -46,6 +48,7 @@ namespace UfoDigger.GameObjects
             this.Size = new System.Drawing.Size(64, 64);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -61,15 +64,18 @@ namespace UfoDigger.GameObjects
 
         private void Update(object sender, EventArgs e)
         {
-            //aktualizowanie pozycji gracza
-            if (Core.IsUp)
+            //aktualizowanie pozycji gracza z dynamicznymi ograniczeniami zalenymi od rozmiaru okna
+            if (Core.IsUp && (Top-speed > 0))
                 Top -= speed;
-            if (Core.IsDown)
+            if (Core.IsDown && (Bottom+speed) < ParentForm.ClientRectangle.Height)
                 Top += speed;
-            if (Core.IsLeft)
+            if (Core.IsLeft && (Left-speed) > 0)
                 Left -= speed;
-            if (Core.IsRight)
+            if (Core.IsRight && (Right+speed) < ParentForm.ClientRectangle.Width)
                 Left += speed;
+            
         }
+
+        
     }
 }
