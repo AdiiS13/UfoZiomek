@@ -20,6 +20,7 @@ namespace UfoDigger
         public int amountOfMoney = 0;
         Workbench workbench = new Workbench();
         DeliveryTime deliveryTime = new DeliveryTime();
+        DeliveryCar deliveryCar = new DeliveryCar();
         public bool hasPizzaInHand = false;
         public bool hasFullTrunk = false;
         
@@ -33,6 +34,7 @@ namespace UfoDigger
             //włączenie czytania klawiszy
             KeyPreview = true;
             MakeLabelsInvisible();
+            deliveryCar.timerCarMovement.Stop();
         }
 
         private void OnKeyDown(object sender, KeyEventArgs e)
@@ -153,6 +155,7 @@ namespace UfoDigger
         {
             timerForm1.Enabled = false;
             player1.timerUpdate.Enabled = false;
+            deliveryCar.timerCarMovement.Start();
             //pokazuje okienko z losowo wygenerowaną mapą dostawy - tam się jeździ i dostarcza
             deliveryTime.ShowDialog(this);
             timerForm1.Enabled = true;

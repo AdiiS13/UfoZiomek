@@ -28,12 +28,34 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.deliveryCar1 = new UfoDigger.DeliveryCar();
+            this.SuspendLayout();
+            // 
+            // deliveryCar1
+            // 
+            this.deliveryCar1.Location = new System.Drawing.Point(155, 138);
+            this.deliveryCar1.Name = "deliveryCar1";
+            this.deliveryCar1.Size = new System.Drawing.Size(109, 103);
+            this.deliveryCar1.TabIndex = 0;
+            // 
+            // DeliveryTime
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.deliveryCar1);
+            this.KeyPreview = true;
+            this.Name = "DeliveryTime";
             this.Text = "DeliveryTime";
+            this.Load += new System.EventHandler(this.DeliveryTime_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnKeyDown);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.OnKeyUp);
+            this.ResumeLayout(false);
+
         }
 
         #endregion
+
+        private DeliveryCar deliveryCar1;
     }
 }

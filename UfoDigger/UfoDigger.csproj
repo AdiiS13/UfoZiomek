@@ -47,6 +47,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core.cs" />
+    <Compile Include="GameObjects\DeliveryCar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="DeliveryTime.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -70,8 +73,14 @@
     <Compile Include="Workbench.Designer.cs">
       <DependentUpon>Workbench.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="DeliveryTime.resx">
+      <DependentUpon>DeliveryTime.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GameObjects\DeliveryCar.resx">
+      <DependentUpon>DeliveryCar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GameObjects\Player.resx">
       <DependentUpon>Player.cs</DependentUpon>
