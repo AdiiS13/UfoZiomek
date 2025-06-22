@@ -67,6 +67,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ThugsFight.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ThugsFight.Designer.cs">
+      <DependentUpon>ThugsFight.cs</DependentUpon>
+    </Compile>
     <Compile Include="Workbench.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -89,6 +95,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ThugsFight.resx">
+      <DependentUpon>ThugsFight.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Workbench.resx">
       <DependentUpon>Workbench.cs</DependentUpon>

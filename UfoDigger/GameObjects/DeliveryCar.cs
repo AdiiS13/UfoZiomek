@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ namespace UfoDigger
         public PictureBox pictureBox1;
 
         private Form parentForm;
+        private float rotationAngle = 0;
 
         public int speed = 15;
 
@@ -76,13 +78,49 @@ namespace UfoDigger
 
             //aktualizowanie pozycji auta z dynamicznymi ograniczeniami zaleznymi od rozmiaru okna
             if (Core.IsUp && (Top - speed > 0))
+            {
                 Top -= speed;
+                rotationAngle = 270;            
+            }
             if (Core.IsDown && (Bottom + speed) < parentForm.ClientRectangle.Height)
+            {  
                 Top += speed;
+                rotationAngle = 90;            
+            }
             if (Core.IsLeft && (Left - speed) > 0)
+            { 
                 Left -= speed;
+                rotationAngle = 180;
+            }
             if (Core.IsRight && (Right + speed) < parentForm.ClientRectangle.Width)
+            { 
                 Left += speed;
+                rotationAngle = 0;
+            }
+
+            //obracanie auta w kierunku jazdy
+            RotateCar();
+        }
+
+        private void RotateCar()
+        {
+            pictureBox1.Image = global::UfoDigger.Properties.Resources.autotmpdelivery;
+
+            //obrot o odpowiedni kat
+            var rotatedImage = new Bitmap(pictureBox1.Image);
+            rotatedImage.RotateFlip(GetRotationFlip(rotationAngle));
+
+            pictureBox1.Image = rotatedImage;
+        }
+
+        private RotateFlipType GetRotationFlip(float angle)
+        {
+            if (angle == 0) return RotateFlipType.RotateNoneFlipNone;
+            if (angle == 90) return RotateFlipType.Rotate90FlipNone;
+            if (angle == 180) return RotateFlipType.Rotate180FlipNone;
+            if (angle == 270) return RotateFlipType.Rotate270FlipNone;
+
+            return RotateFlipType.RotateNoneFlipNone;
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)

@@ -34,12 +34,12 @@
             this.pictureBoxPhone = new System.Windows.Forms.PictureBox();
             this.pictureBoxPizzaTable = new System.Windows.Forms.PictureBox();
             this.timerForm1 = new System.Windows.Forms.Timer(this.components);
-            this.player1 = new UfoDigger.GameObjects.Player();
             this.labelWorkbench = new System.Windows.Forms.Label();
             this.labelPickupPizza = new System.Windows.Forms.Label();
             this.labelPutDownPizza = new System.Windows.Forms.Label();
             this.labelDelivery = new System.Windows.Forms.Label();
             this.labelPhone = new System.Windows.Forms.Label();
+            this.player1 = new UfoDigger.GameObjects.Player();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxWorkbench)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPhone)).BeginInit();
@@ -88,13 +88,6 @@
             // 
             this.timerForm1.Enabled = true;
             this.timerForm1.Tick += new System.EventHandler(this.Update);
-            // 
-            // player1
-            // 
-            this.player1.Location = new System.Drawing.Point(82, 378);
-            this.player1.Name = "player1";
-            this.player1.Size = new System.Drawing.Size(64, 64);
-            this.player1.TabIndex = 0;
             // 
             // labelWorkbench
             // 
@@ -150,6 +143,13 @@
             this.labelPhone.Size = new System.Drawing.Size(175, 62);
             this.labelPhone.TabIndex = 9;
             this.labelPhone.Text = "press R to\r\npickup phone";
+            // 
+            // player1
+            // 
+            this.player1.Location = new System.Drawing.Point(82, 378);
+            this.player1.Name = "player1";
+            this.player1.Size = new System.Drawing.Size(64, 64);
+            this.player1.TabIndex = 0;
             // 
             // Form1
             // 

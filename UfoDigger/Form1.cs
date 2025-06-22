@@ -17,9 +17,13 @@ namespace UfoDigger
         [DllImport("user32.dll")]
         private static extern short GetAsyncKeyState(Keys vKeys);
 
-        public int amountOfMoney = 0;
-        Workbench workbench = new Workbench();
-        DeliveryTime deliveryTime = new DeliveryTime();
+        public int amountOfMoney = 10;
+        public int carSpeed = 10;
+        public int carTrunkCapacity = 5;
+        public int carTrunkPizzaInside = 0;
+        public int fuelTankCapacity = 5;
+        public int numberOfUpgrades = 0;
+        public int singlePizzaValue = 5;
         DeliveryCar deliveryCar = new DeliveryCar();
         public bool hasPizzaInHand = false;
         public bool hasFullTrunk = false;
@@ -77,9 +81,12 @@ namespace UfoDigger
                 {
                     labelPutDownPizza.Visible = true;
                     if ((GetAsyncKeyState(Keys.O) & 0x8000) != 0)
+                    {
                         PizzaInteractions("o");
+                        carTrunkPizzaInside ++;
+                    }
                 }
-                else //jak nie ma pizzy w ręce to może przewieźć te co ma zapakowane
+                else if (carTrunkPizzaInside > 0) //jak nie ma pizzy w ręce to może przewieźć te co ma zapakowane
                 {
                     labelDelivery.Visible = true;
                     if ((GetAsyncKeyState(Keys.C) & 0x8000) != 0)
@@ -114,10 +121,12 @@ namespace UfoDigger
 
         private void WorkbenchInteractions()
         {
+            Workbench workbench = new Workbench();
+
             timerForm1.Enabled = false;
             player1.timerUpdate.Enabled = false;
             //pokazuje okienko z dostępnymi ulepszeniami
-            workbench.ShowDialog(this);
+            workbench.Show(this);
             timerForm1.Enabled = true;
             player1.timerUpdate.Enabled = true;
         }
@@ -153,11 +162,29 @@ namespace UfoDigger
         }
         private void CarInteractions()
         {
+            DeliveryTime deliveryTime = new DeliveryTime();
+
             timerForm1.Enabled = false;
             player1.timerUpdate.Enabled = false;
             deliveryCar.timerCarMovement.Start();
+
+            //przekazanie danych do dostawy
+            deliveryTime.money = amountOfMoney;
+            deliveryTime.houseCount = carTrunkPizzaInside;
+            deliveryTime.pizzaInTrunk = carTrunkPizzaInside;
+            deliveryTime.trunkSize = carTrunkCapacity;
+            deliveryTime.numberOfUpgrades = numberOfUpgrades;
+            deliveryTime.payedPerPizza = singlePizzaValue;
+
+            //odczyt danych po zamknieciu okienka
+            deliveryTime.FormClosed += (s, args) =>
+            {
+                amountOfMoney = deliveryTime.money;
+            };
+                        
             //pokazuje okienko z losowo wygenerowaną mapą dostawy - tam się jeździ i dostarcza
-            deliveryTime.ShowDialog(this);
+
+            deliveryTime.Show(this);
             timerForm1.Enabled = true;
             player1.timerUpdate.Enabled = true;
         }
