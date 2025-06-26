@@ -56,7 +56,7 @@ namespace UfoDigger
             upgradeListBox.SelectedIndex = selectedUpgrade;
         }
 
-        // Handles keyboard input for navigating and upgrading
+        // Handles keyboard inputs for navigating and upgrading
         private void Workbench_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.W)
