@@ -119,13 +119,14 @@ namespace UfoDigger
 
         
 
-        private void WorkbenchInteractions()
+void WorkbenchInteractions()
         {
-            Workbench workbench = new Workbench();
+            // Pass the current instance of Form1 to the Workbench constructor
+            Workbench workbench = new Workbench(this);
 
             timerForm1.Enabled = false;
             player1.timerUpdate.Enabled = false;
-            //pokazuje okienko z dostępnymi ulepszeniami
+            // Shows the Workbench form with the upgrades
             workbench.Show(this);
             timerForm1.Enabled = true;
             player1.timerUpdate.Enabled = true;
