@@ -19,7 +19,6 @@ namespace UfoDigger
 
         // Arrays to hold upgrade names and their levels
         private string[] upgradeNames = {"Speed", "Trunk Capacity", "Fuel"};
-        private int[] upgradeLevels = {1, 1, 1};
         private int selectedUpgrade = 0;
 
         public Workbench(Form1 form)
@@ -49,11 +48,25 @@ namespace UfoDigger
             for (int i = 0; i < upgradeNames.Length; i++)
             {
                 string prefix = (i == selectedUpgrade) ? "> " : "  ";
-                string line = $"{prefix}{upgradeNames[i]} (Level {upgradeLevels[i]})";
+                // Get the current level of the upgrade from the main form
+                int level = GetUpgradeLevels(i);
+                string line = $"{prefix}{upgradeNames[i]} (Level {level})";
                 upgradeListBox.Items.Add(line);
             }
             // Highlight the selected upgrade
             upgradeListBox.SelectedIndex = selectedUpgrade;
+        }
+
+        // Retrieves the current level of the upgrade based on the index
+        private int GetUpgradeLevels(int index)
+        {
+            switch (index)
+            {
+                case 0: return mainForm.speedUpgradeLvl;
+                case 1: return mainForm.trunkUpgradeLvl;
+                case 2: return mainForm.fuelUpgradeLvl;
+                default: return 0;
+            }
         }
 
         // Handles keyboard inputs for navigating and upgrading
@@ -79,18 +92,43 @@ namespace UfoDigger
                 TryUpgradeSelected();
                 e.Handled = true;
             }
+            else if (e.KeyCode == Keys.Escape)
+            {
+                // Close the workbench when Escape is pressed
+                this.Close();
+                e.Handled = true;
+            }
         }
         // Attempts to upgrade the selected upgrade - work in progress
         private void TryUpgradeSelected()
         {
             // Test if the selected upgrade can be upgraded
-            int currentLevel = upgradeLevels[selectedUpgrade];
+            int currentLevel = GetUpgradeLevels(selectedUpgrade);
+
             int cost = 1 + currentLevel * 2; // example cost formula
             // Check if the player has enough money to upgrade
             if (mainForm.amountOfMoney >= cost)
             {
+                // Deduct the cost and apply the upgrade
                 mainForm.amountOfMoney -= cost;
-                upgradeLevels[selectedUpgrade] = currentLevel + 1;
+
+                // Apply the upgrade based on the selected upgrade
+                switch (selectedUpgrade)
+                {
+                    case 0:
+                        mainForm.speedUpgradeLvl = currentLevel + 1;
+                        mainForm.carSpeed += 5; // Increase car speed
+                        break;
+                    case 1:
+                        mainForm.trunkUpgradeLvl = currentLevel + 1;
+                        mainForm.carTrunkCapacity += 1;
+                        break;
+                    case 2:
+                        mainForm.fuelUpgradeLvl = currentLevel + 1;
+                        mainForm.fuelTankCapacity += 2;
+                        break;
+                }
+                // Update the workbench display
                 UpdateWB();
             }
             else
@@ -98,6 +136,7 @@ namespace UfoDigger
                 // Show a message if not enough money
                 MessageBox.Show("Not enough money to upgrade!", "Upgrade Failed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+            
         }
 
 

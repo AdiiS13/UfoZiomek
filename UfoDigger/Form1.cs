@@ -27,7 +27,12 @@ namespace UfoDigger
         DeliveryCar deliveryCar = new DeliveryCar();
         public bool hasPizzaInHand = false;
         public bool hasFullTrunk = false;
-        
+
+        //Saves the upgrade levels for the car
+        public int speedUpgradeLvl = 1;
+        public int trunkUpgradeLvl = 1;
+        public int fuelUpgradeLvl = 1;
+
         public Form1()
         {
             InitializeComponent();
