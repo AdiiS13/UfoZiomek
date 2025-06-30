@@ -162,7 +162,7 @@ namespace UfoDigger
                         break;
                     case 1:
                         mainForm.trunkUpgradeLvl = Math.Min(currentLevel + 1, 10);
-                        mainForm.carTrunkCapacity += 1;
+                        mainForm.carTrunkCapacity = mainForm.trunkUpgradeLvl;
                         break;
                     case 2:
                         mainForm.fuelUpgradeLvl = Math.Min(currentLevel + 1, 10);

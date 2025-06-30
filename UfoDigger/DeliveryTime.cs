@@ -272,14 +272,20 @@ namespace UfoDigger
             }
 
             moneyL.Text = money.ToString();
+            // Update the trunk status label
+            labelTrunkStatus.Text = $"Pizzas in Trunk: {pizzaInTrunk}/{trunkSize}";
         }
 
         private void DeliverDaPizza(int id)
         {
-            //otrzymaj zaplate za dostawe
+            // otrzymaj zaplate za dostawe
             money += payedPerPizza;
 
-            //usun dom i label
+            // After delivering a pizza, decrease the count in the trunk
+            if (pizzaInTrunk > 0)
+                pizzaInTrunk--;
+
+            // usun dom i label
             PictureBox house = housesList[id];
             Label lab = housesLabel[id];
             this.Controls.Remove(house);
@@ -289,6 +295,8 @@ namespace UfoDigger
             housesList.RemoveAt(id);
             housesLabel.RemoveAt(id);
 
+            // Update trunk status label
+            labelTrunkStatus.Text = $"Pizzas in Trunk: {pizzaInTrunk}/{trunkSize}";
         }
 
         private void makeLabelsInvisible()

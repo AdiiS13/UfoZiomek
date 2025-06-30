@@ -17,13 +17,13 @@ namespace UfoDigger
         [DllImport("user32.dll")]
         private static extern short GetAsyncKeyState(Keys vKeys);
 
-        public int amountOfMoney = 2000;
+        public int amountOfMoney = 2000; // Current value is only for testing purposes, remember to change it later!!!
         public int carSpeed = 10;
-        public int carTrunkCapacity = 5;
+        public int carTrunkCapacity = 1;
         public int carTrunkPizzaInside = 0;
         public int fuelTankCapacity = 5;
         public int numberOfUpgrades = 0;
-        public int singlePizzaValue = 5;
+        public int singlePizzaValue = 1;
         DeliveryCar deliveryCar = new DeliveryCar();
         public bool hasPizzaInHand = false;
         public bool hasFullTrunk = false;
@@ -89,8 +89,20 @@ namespace UfoDigger
                     labelPutDownPizza.Visible = true;
                     if ((GetAsyncKeyState(Keys.O) & 0x8000) != 0)
                     {
-                        PizzaInteractions("o");
-                        carTrunkPizzaInside ++;
+                        // Check the trunk capacity
+                        if ((carTrunkPizzaInside + singlePizzaValue) <= carTrunkCapacity)
+                        {
+                            PizzaInteractions("o");
+                            carTrunkPizzaInside += singlePizzaValue;
+                        }
+                        else
+                        {
+                            // Trunk is full, just put the pizza back (remove from hand)
+                            PizzaInteractions("o");
+                            MessageBox.Show("The trunk is full! Pizza was put back.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        // Always update the trunk space label
+                        labelTrunkSpace.Text = $"Available space: {carTrunkPizzaInside}/{carTrunkCapacity}";
                     }
                 }
                 else if (carTrunkPizzaInside > 0) //jak nie ma pizzy w ręce to może przewieźć te co ma zapakowane
@@ -122,6 +134,9 @@ namespace UfoDigger
             }
             else
                 MakeLabelsInvisible();
+
+            // Update the trunk space label
+            labelTrunkSpace.Text = $"Available space: {carTrunkPizzaInside}/{carTrunkCapacity}";
         }
 
         
