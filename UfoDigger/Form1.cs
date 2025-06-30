@@ -124,10 +124,11 @@ namespace UfoDigger
 
         
 
-void WorkbenchInteractions()
+        void WorkbenchInteractions()
         {
             // Pass the current instance of Form1 to the Workbench constructor
             Workbench workbench = new Workbench(this);
+
 
             timerForm1.Enabled = false;
             player1.timerUpdate.Enabled = false;
@@ -181,6 +182,7 @@ void WorkbenchInteractions()
             deliveryTime.trunkSize = carTrunkCapacity;
             deliveryTime.numberOfUpgrades = numberOfUpgrades;
             deliveryTime.payedPerPizza = singlePizzaValue;
+            deliveryTime.carSpeed = carSpeed;
 
             //odczyt danych po zamknieciu okienka
             deliveryTime.FormClosed += (s, args) =>
@@ -189,10 +191,12 @@ void WorkbenchInteractions()
             };
                         
             //pokazuje okienko z losowo wygenerowaną mapą dostawy - tam się jeździ i dostarcza
-
             deliveryTime.Show(this);
             timerForm1.Enabled = true;
             player1.timerUpdate.Enabled = true;
+
+            // After closing the DeliveryTime form, update the car speed
+            this.carSpeed = deliveryTime.carSpeed;
         }
         
         private void MakeLabelsInvisible()

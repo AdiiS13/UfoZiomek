@@ -24,6 +24,8 @@ namespace UfoDigger
         public int money { get; set; }
         public int payedPerPizza { get; set; }
 
+        public int carSpeed { get; set; }
+
         private List<PictureBox> housesList = new List<PictureBox>();
         private List<Label> housesLabel = new List<Label>();
         private List<PictureBox> thugsList = new List<PictureBox>();
@@ -88,6 +90,9 @@ namespace UfoDigger
             SpawnHouses(houseCount);
             //SpawnFuelCanisters();
             SpawnThugs(numberOfUpgrades);
+
+            // pass speed to delivery car
+            deliveryCar1.speed = carSpeed;
         }
 
         private void SpawnThugs(int hooligansDifficulty)
