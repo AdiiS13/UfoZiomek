@@ -40,20 +40,16 @@ namespace UfoDigger
 
         private void UpdateWB()
         {
-            // Update the labels and list box with current values
             moneyLabel.Text = $"Money: ${mainForm.amountOfMoney}";
-            
             upgradeListBox.Items.Clear();
-            // Populate the list box with upgrade names and levels
             for (int i = 0; i < upgradeNames.Length; i++)
             {
                 string prefix = (i == selectedUpgrade) ? "> " : "  ";
-                // Get the current level of the upgrade from the main form
                 int level = GetUpgradeLevels(i);
-                string line = $"{prefix}{upgradeNames[i]} (Level {level})";
+                string costText = (level >= 10) ? "MAX" : $"${GetUpgradeCost(level)}";
+                string line = $"{prefix}{upgradeNames[i]} (Level {level}) [{costText}]";
                 upgradeListBox.Items.Add(line);
             }
-            // Highlight the selected upgrade
             upgradeListBox.SelectedIndex = selectedUpgrade;
         }
 
@@ -67,6 +63,19 @@ namespace UfoDigger
                 case 2: return mainForm.fuelUpgradeLvl;
                 default: return 0;
             }
+        }
+
+        // Calculates the cost of upgrading to the next level
+        private int GetUpgradeCost(int currentLevel)
+        {
+            if (currentLevel >= 1 && currentLevel <= 4)
+                return currentLevel * 5;
+            else if (currentLevel >= 5 && currentLevel <= 7)
+                return currentLevel * 10;
+            else if (currentLevel >= 8 && currentLevel <= 10)
+                return currentLevel * 15;
+            else
+                return 0;
         }
 
         // Handles keyboard inputs for navigating and upgrading
@@ -99,46 +108,43 @@ namespace UfoDigger
                 e.Handled = true;
             }
         }
-        // Attempts to upgrade the selected upgrade - work in progress
+
         private void TryUpgradeSelected()
         {
-            // Test if the selected upgrade can be upgraded
             int currentLevel = GetUpgradeLevels(selectedUpgrade);
 
-            int cost = 1 + currentLevel * 2; // example cost formula
-            // Check if the player has enough money to upgrade
+            if (currentLevel >= 10)
+            {
+                MessageBox.Show("This upgrade is already at max level!", "Upgrade", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            int cost = GetUpgradeCost(currentLevel);
             if (mainForm.amountOfMoney >= cost)
             {
-                // Deduct the cost and apply the upgrade
                 mainForm.amountOfMoney -= cost;
 
-                // Apply the upgrade based on the selected upgrade
                 switch (selectedUpgrade)
                 {
                     case 0:
-                        mainForm.speedUpgradeLvl = currentLevel + 1;
-                        mainForm.carSpeed += 5; // Increase car speed
+                        mainForm.speedUpgradeLvl = Math.Min(currentLevel + 1, 10);
+                        mainForm.carSpeed += 5;
                         break;
                     case 1:
-                        mainForm.trunkUpgradeLvl = currentLevel + 1;
+                        mainForm.trunkUpgradeLvl = Math.Min(currentLevel + 1, 10);
                         mainForm.carTrunkCapacity += 1;
                         break;
                     case 2:
-                        mainForm.fuelUpgradeLvl = currentLevel + 1;
+                        mainForm.fuelUpgradeLvl = Math.Min(currentLevel + 1, 10);
                         mainForm.fuelTankCapacity += 2;
                         break;
                 }
-                // Update the workbench display
                 UpdateWB();
             }
             else
             {
-                // Show a message if not enough money
                 MessageBox.Show("Not enough money to upgrade!", "Upgrade Failed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
-            
         }
-
-
     }
 }

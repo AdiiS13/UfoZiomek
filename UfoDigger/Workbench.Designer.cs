@@ -47,12 +47,12 @@
             // 
             // upgradeListBox
             // 
-            this.upgradeListBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 25.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.upgradeListBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.upgradeListBox.FormattingEnabled = true;
-            this.upgradeListBox.ItemHeight = 51;
+            this.upgradeListBox.ItemHeight = 38;
             this.upgradeListBox.Location = new System.Drawing.Point(399, 162);
             this.upgradeListBox.Name = "upgradeListBox";
-            this.upgradeListBox.Size = new System.Drawing.Size(590, 259);
+            this.upgradeListBox.Size = new System.Drawing.Size(590, 232);
             this.upgradeListBox.TabIndex = 1;
             // 
             // moneyLabel
@@ -71,7 +71,7 @@
             this.instructionsLabel.Font = new System.Drawing.Font("Noto Sans JP", 25.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.instructionsLabel.Location = new System.Drawing.Point(49, 451);
             this.instructionsLabel.Name = "instructionsLabel";
-            this.instructionsLabel.Size = new System.Drawing.Size(920, 64);
+            this.instructionsLabel.Size = new System.Drawing.Size(900, 62);
             this.instructionsLabel.TabIndex = 3;
             this.instructionsLabel.Text = "Use W/S to move, P to upgrade, Esc to close\r\n";
             // 

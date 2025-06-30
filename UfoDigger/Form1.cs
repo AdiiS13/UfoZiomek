@@ -17,7 +17,7 @@ namespace UfoDigger
         [DllImport("user32.dll")]
         private static extern short GetAsyncKeyState(Keys vKeys);
 
-        public int amountOfMoney = 10;
+        public int amountOfMoney = 700;
         public int carSpeed = 10;
         public int carTrunkCapacity = 5;
         public int carTrunkPizzaInside = 0;
@@ -27,6 +27,8 @@ namespace UfoDigger
         DeliveryCar deliveryCar = new DeliveryCar();
         public bool hasPizzaInHand = false;
         public bool hasFullTrunk = false;
+
+        public bool ufoPart = false;
 
         //Saves the upgrade levels for the car
         public int speedUpgradeLvl = 1;
