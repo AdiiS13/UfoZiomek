@@ -17,7 +17,7 @@ namespace UfoDigger
         [DllImport("user32.dll")]
         private static extern short GetAsyncKeyState(Keys vKeys);
 
-        public int amountOfMoney = 700;
+        public int amountOfMoney = 2000;
         public int carSpeed = 10;
         public int carTrunkCapacity = 5;
         public int carTrunkPizzaInside = 0;

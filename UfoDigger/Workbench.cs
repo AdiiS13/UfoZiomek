@@ -18,7 +18,7 @@ namespace UfoDigger
         private Form1 mainForm;
 
         // Arrays to hold upgrade names and their levels
-        private string[] upgradeNames = {"Speed", "Trunk Capacity", "Fuel"};
+        private string[] upgradeNames = { "Speed", "Trunk Capacity", "Fuel" };
         private int selectedUpgrade = 0;
 
         public Workbench(Form1 form)
@@ -40,16 +40,25 @@ namespace UfoDigger
 
         private void UpdateWB()
         {
+            // Update the labels and list box with current stats and upgrades
             moneyLabel.Text = $"Money: ${mainForm.amountOfMoney}";
             upgradeListBox.Items.Clear();
+            // Add upgrades
             for (int i = 0; i < upgradeNames.Length; i++)
             {
                 string prefix = (i == selectedUpgrade) ? "> " : "  ";
                 int level = GetUpgradeLevels(i);
-                string costText = (level >= 10) ? "MAX" : $"${GetUpgradeCost(level)}";
+                string costText = (level < 10) ? $"${GetUpgradeCost(level + 1)}" : "MAX";
                 string line = $"{prefix}{upgradeNames[i]} (Level {level}) [{costText}]";
                 upgradeListBox.Items.Add(line);
             }
+            // Add UFO Repair Part option
+            string ufoPrefix = (selectedUpgrade == upgradeNames.Length) ? "> " : "  ";
+            string ufoStatus = mainForm.ufoPart ? "BOUGHT" : "$1000";
+            string ufoLine = $"{ufoPrefix}UFO Repair Part [{ufoStatus}]";
+            upgradeListBox.Items.Add(ufoLine);
+
+            // Adjust selection if needed
             upgradeListBox.SelectedIndex = selectedUpgrade;
         }
 
@@ -81,29 +90,26 @@ namespace UfoDigger
         // Handles keyboard inputs for navigating and upgrading
         private void Workbench_KeyDown(object sender, KeyEventArgs e)
         {
+            int optionsCount = upgradeNames.Length + 1; // +1 for UFO Repair Part
             if (e.KeyCode == Keys.W)
             {
-                // Move up in the upgrade list
-                selectedUpgrade = (selectedUpgrade - 1 + upgradeNames.Length) % upgradeNames.Length;
+                selectedUpgrade = (selectedUpgrade - 1 + optionsCount) % optionsCount;
                 UpdateWB();
                 e.Handled = true;
             }
             else if (e.KeyCode == Keys.S)
             {
-                // Move down in the upgrade list
-                selectedUpgrade = (selectedUpgrade + 1) % upgradeNames.Length;
+                selectedUpgrade = (selectedUpgrade + 1) % optionsCount;
                 UpdateWB();
                 e.Handled = true;
             }
             else if (e.KeyCode == Keys.P)
             {
-                // Try to upgrade the selected upgrade
                 TryUpgradeSelected();
                 e.Handled = true;
             }
             else if (e.KeyCode == Keys.Escape)
             {
-                // Close the workbench when Escape is pressed
                 this.Close();
                 e.Handled = true;
             }
@@ -111,6 +117,30 @@ namespace UfoDigger
 
         private void TryUpgradeSelected()
         {
+            // Logic to handle purchase of the UFO Repair Part
+            if (selectedUpgrade == upgradeNames.Length)
+            {
+                if (mainForm.ufoPart)
+                {
+                    MessageBox.Show("You have already bought the UFO Repair Part!", "Already Bought", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+                if (mainForm.amountOfMoney >= 1000)
+                {
+                    mainForm.amountOfMoney -= 1000;
+                    mainForm.ufoPart = true;
+                    MessageBox.Show("You bought the UFO Repair Part! The game is now over.", "Congratulations!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    Application.Exit(); // If other method of ending the game is preferred, replace this line, it is quite abrupt ending
+                }
+                else
+                {
+                    MessageBox.Show("Not enough money to buy the UFO Repair Part!", "Purchase Failed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                UpdateWB();
+                return;
+            }
+
+            // Check if an upgrade is selected and displays message if not enough money or already at max level
             int currentLevel = GetUpgradeLevels(selectedUpgrade);
 
             if (currentLevel >= 10)
@@ -119,7 +149,7 @@ namespace UfoDigger
                 return;
             }
 
-            int cost = GetUpgradeCost(currentLevel);
+            int cost = GetUpgradeCost(currentLevel + 1);
             if (mainForm.amountOfMoney >= cost)
             {
                 mainForm.amountOfMoney -= cost;
