@@ -43,7 +43,7 @@ namespace UfoDigger
             moneyLabel.Text = $"Money: ${mainForm.amountOfMoney}";
             upgradeListBox.Items.Clear();
 
-            // Add upgrades
+            // Add upgrades to the list box
             for (int i = 0; i < upgradeNames.Length; i++)
             {
                 string prefix = (i == selectedUpgrade) ? "> " : "  ";
@@ -125,7 +125,7 @@ namespace UfoDigger
 
         private void TryUpgradeSelected()
         {
-            int fuelRefillIndex = upgradeNames.Length;
+            int fuelRefillIndex = upgradeNames.Length; 
             int ufoIndex = upgradeNames.Length + 1;
 
             // Fuel Refill logic

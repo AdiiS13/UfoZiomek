@@ -28,6 +28,8 @@ namespace UfoDigger
 
         public int carSpeed { get; set; }
 
+        public bool ShouldResetTrunk => pizzaInTrunk > 0;
+
         private List<PictureBox> housesList = new List<PictureBox>();
         private List<Label> housesLabel = new List<Label>();
         private List<PictureBox> thugsList = new List<PictureBox>();
@@ -37,9 +39,17 @@ namespace UfoDigger
         private Timer fuelTimer = new Timer();
         private int currentFuel;
 
-        public DeliveryTime()
+        // Tracking stats
+        private int pizzasDelivered = 0;
+        private int moneyEarned = 0;
+        private string deliveryStatus = "";
+
+        private Form1 mainForm; // Reference to the main form
+
+        public DeliveryTime(Form1 mainForm)
         {
             InitializeComponent();
+            this.mainForm = mainForm;
             this.FormClosing += DeliveryTime_FormClosing;
             //KeyPreview = true;
         }
@@ -87,7 +97,7 @@ namespace UfoDigger
             KeyPreview = true;
             moneyL.Text = money.ToString();
 
-            // Set up fuel gauge and save fuel tank status
+            // Set up fuel gauge and save fuel tank state
             fuelGauge.Maximum = fuelTankCapacity;
             currentFuel = fuelTankStatus;
             fuelGauge.Value = currentFuel;
@@ -116,8 +126,8 @@ namespace UfoDigger
                 currentFuel = 0;
                 fuelGauge.Value = 0;
                 fuelTimer.Stop();
-                MessageBox.Show("Out of fuel!", "Game Over", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                this.Close(); // Only close the DeliveryTime form
+                deliveryStatus = "Out of fuel";
+                ShowSummaryAndClose();
             }
             labelFuelStatus.Text = $"Fuel: {currentFuel}/{fuelTankCapacity}";
         }
@@ -311,14 +321,14 @@ namespace UfoDigger
 
         private void DeliverDaPizza(int id)
         {
-            // otrzymaj zaplate za dostawe
             money += payedPerPizza;
+            moneyEarned += payedPerPizza;
+            pizzasDelivered++;
 
-            // After delivering a pizza, decrease the count in the trunk
             if (pizzaInTrunk > 0)
                 pizzaInTrunk--;
 
-            // usun dom i label
+            // Remove house and label
             PictureBox house = housesList[id];
             Label lab = housesLabel[id];
             this.Controls.Remove(house);
@@ -328,8 +338,34 @@ namespace UfoDigger
             housesList.RemoveAt(id);
             housesLabel.RemoveAt(id);
 
+            // If all pizzas delivered
+            if (pizzaInTrunk == 0 && housesList.Count == 0)
+            {
+                deliveryStatus = "Delivered all pizzas";
+                ShowSummaryAndClose();
+            }
+
             // Update trunk status label
             labelTrunkStatus.Text = $"Pizzas in Trunk: {pizzaInTrunk}/{trunkSize}";
+        }
+
+        // Show summary and close the form
+        private void ShowSummaryAndClose()
+        {
+            int pizzas = pizzasDelivered;
+            int money = moneyEarned;
+            string status = deliveryStatus;
+
+            // Schedule the summary form to open before closing this form
+            this.Invoke((Action)(() =>
+            {
+                var summary = new DeliverySummary(this, mainForm); // mainForm is your Form1 instance
+                summary.ShowSummary(pizzas, money, status);
+                summary.ShowDialog();
+            }));
+
+            // Close this form after the summary dialog is shown
+            this.Close();
         }
 
         private void makeLabelsInvisible()

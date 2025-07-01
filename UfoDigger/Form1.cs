@@ -196,7 +196,7 @@ namespace UfoDigger
         }
         private void CarInteractions()
         {
-            DeliveryTime deliveryTime = new DeliveryTime();
+            DeliveryTime deliveryTime = new DeliveryTime(this);
 
             timerForm1.Enabled = false;
             player1.timerUpdate.Enabled = false;
@@ -218,10 +218,12 @@ namespace UfoDigger
             {
                 amountOfMoney = deliveryTime.money;
                 fuelTankStatus = deliveryTime.fuelTankStatus;
-                fuelTankCapacity = deliveryTime.fuelTankCapacity; // In case it changes
-                UpdateFuelLabel(); // Update the label after delivery
+                fuelTankCapacity = deliveryTime.fuelTankCapacity;
+                if (deliveryTime.ShouldResetTrunk) // If any pizza were left in the trunk, reset it
+                    carTrunkPizzaInside = 0;
+                UpdateFuelLabel();
             };
-                        
+
             //pokazuje okienko z losowo wygenerowaną mapą dostawy - tam się jeździ i dostarcza
             deliveryTime.Show(this);
             timerForm1.Enabled = true;
@@ -240,6 +242,7 @@ namespace UfoDigger
             labelPhone.Visible = false;
         }
 
+        // Updates the fuel label to show the current fuel status
         private void UpdateFuelLabel()
         {
             labelFuelLeft.Text = $"Fuel: {fuelTankStatus}/{fuelTankCapacity}";
