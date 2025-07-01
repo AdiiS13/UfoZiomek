@@ -21,7 +21,8 @@ namespace UfoDigger
         public int carSpeed = 10;
         public int carTrunkCapacity = 1;
         public int carTrunkPizzaInside = 0;
-        public int fuelTankCapacity = 5;
+        public int fuelTankCapacity = 100;
+        public int fuelTankStatus = 0; // Saves the current fuel level
         public int numberOfUpgrades = 0;
         public int singlePizzaValue = 1;
         DeliveryCar deliveryCar = new DeliveryCar();
@@ -42,10 +43,13 @@ namespace UfoDigger
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            //włączenie czytania klawiszy
+            // Set the fuel tank status to full at the start
+            fuelTankStatus = fuelTankCapacity;
+
             KeyPreview = true;
             MakeLabelsInvisible();
             deliveryCar.timerCarMovement.Stop();
+            UpdateFuelLabel(); // Initialize the label
         }
 
         private void OnKeyDown(object sender, KeyEventArgs e)
@@ -146,9 +150,15 @@ namespace UfoDigger
             // Pass the current instance of Form1 to the Workbench constructor
             Workbench workbench = new Workbench(this);
 
-
             timerForm1.Enabled = false;
             player1.timerUpdate.Enabled = false;
+
+            // Update fuel label after workbench closes (in case upgrades changed capacity)
+            workbench.FormClosed += (s, args) =>
+            {
+                UpdateFuelLabel();
+            };
+
             // Shows the Workbench form with the upgrades
             workbench.Show(this);
             timerForm1.Enabled = true;
@@ -197,6 +207,8 @@ namespace UfoDigger
             deliveryTime.houseCount = carTrunkPizzaInside;
             deliveryTime.pizzaInTrunk = carTrunkPizzaInside;
             deliveryTime.trunkSize = carTrunkCapacity;
+            deliveryTime.fuelTankCapacity = fuelTankCapacity;
+            deliveryTime.fuelTankStatus = fuelTankStatus;
             deliveryTime.numberOfUpgrades = numberOfUpgrades;
             deliveryTime.payedPerPizza = singlePizzaValue;
             deliveryTime.carSpeed = carSpeed;
@@ -205,6 +217,9 @@ namespace UfoDigger
             deliveryTime.FormClosed += (s, args) =>
             {
                 amountOfMoney = deliveryTime.money;
+                fuelTankStatus = deliveryTime.fuelTankStatus;
+                fuelTankCapacity = deliveryTime.fuelTankCapacity; // In case it changes
+                UpdateFuelLabel(); // Update the label after delivery
             };
                         
             //pokazuje okienko z losowo wygenerowaną mapą dostawy - tam się jeździ i dostarcza
@@ -223,6 +238,11 @@ namespace UfoDigger
             labelPutDownPizza.Visible = false; 
             labelDelivery.Visible = false;
             labelPhone.Visible = false;
+        }
+
+        private void UpdateFuelLabel()
+        {
+            labelFuelLeft.Text = $"Fuel: {fuelTankStatus}/{fuelTankCapacity}";
         }
     }
 }

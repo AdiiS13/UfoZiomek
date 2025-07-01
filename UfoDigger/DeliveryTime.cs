@@ -23,6 +23,8 @@ namespace UfoDigger
         public int numberOfUpgrades { get; set; }
         public int money { get; set; }
         public int payedPerPizza { get; set; }
+        public int fuelTankCapacity { get; set; }
+        public int fuelTankStatus { get; set; }
 
         public int carSpeed { get; set; }
 
@@ -32,6 +34,8 @@ namespace UfoDigger
         private Timer thugsTimer = new Timer();
         private bool checkIfItsFightTime = true;
 
+        private Timer fuelTimer = new Timer();
+        private int currentFuel;
 
         public DeliveryTime()
         {
@@ -81,18 +85,41 @@ namespace UfoDigger
         private void DeliveryTime_Load(object sender, EventArgs e)
         {
             KeyPreview = true;
-            //deliveryCar1.timerCarMovement.Start();
-            //this.KeyDown += DeliveryTime_KeyDown;
-
             moneyL.Text = money.ToString();
 
-            //spawnowanie rzeczy na mapie dostawy
-            SpawnHouses(houseCount);
-            //SpawnFuelCanisters();
-            SpawnThugs(numberOfUpgrades);
+            // Set up fuel gauge and save fuel tank status
+            fuelGauge.Maximum = fuelTankCapacity;
+            currentFuel = fuelTankStatus;
+            fuelGauge.Value = currentFuel;
+            labelFuelStatus.Text = $"Fuel: {currentFuel}/{fuelTankCapacity}";
 
-            // pass speed to delivery car
+            // Set up fuel timer to tick every 1 second
+            fuelTimer.Interval = 1000; // 1 second
+            fuelTimer.Tick += FuelTimer_Tick;
+            fuelTimer.Start();
+
+            SpawnHouses(houseCount);
+            SpawnThugs(numberOfUpgrades);
             deliveryCar1.speed = carSpeed;
+        }
+
+        // Tick event for the fuel timer and checks fuel level
+        private void FuelTimer_Tick(object sender, EventArgs e)
+        {
+            if (currentFuel > 5)
+            {
+                currentFuel -= 5;
+                fuelGauge.Value = currentFuel;
+            }
+            else
+            {
+                currentFuel = 0;
+                fuelGauge.Value = 0;
+                fuelTimer.Stop();
+                MessageBox.Show("Out of fuel!", "Game Over", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                this.Close(); // Only close the DeliveryTime form
+            }
+            labelFuelStatus.Text = $"Fuel: {currentFuel}/{fuelTankCapacity}";
         }
 
         private void SpawnThugs(int hooligansDifficulty)
@@ -187,7 +214,7 @@ namespace UfoDigger
         {
             Random rng = new Random();
 
-            for (int i = 0; i < pizzasToDeliver; i++)
+            for (int i = 0; pizzasToDeliver > i; i++)
             {
                 PictureBox house = new PictureBox();
                 house.Size = new Size(50, 50);
@@ -218,6 +245,12 @@ namespace UfoDigger
 
         private void DeliveryTime_FormClosing(object sender, FormClosingEventArgs e)
         {
+            // Stop the fuel timer
+            fuelTimer.Stop();
+
+            // Save the current fuel level to the property
+            fuelTankStatus = currentFuel;
+
             //czyszczenie listy domow przy zamknieciu okna
             if (housesList.Count > 0) 
             {
@@ -304,9 +337,6 @@ namespace UfoDigger
             foreach (var labl in housesLabel)
             {  labl.Visible = false; }
         }
-
-
-
 
         //tu niby dziala poruszanie sie ale nie jest plynne
         /*private void DeliveryTime_KeyDown(object sender, KeyEventArgs e)

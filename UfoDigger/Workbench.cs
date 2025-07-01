@@ -40,9 +40,9 @@ namespace UfoDigger
 
         private void UpdateWB()
         {
-            // Update the labels and list box with current stats and upgrades
             moneyLabel.Text = $"Money: ${mainForm.amountOfMoney}";
             upgradeListBox.Items.Clear();
+
             // Add upgrades
             for (int i = 0; i < upgradeNames.Length; i++)
             {
@@ -52,8 +52,16 @@ namespace UfoDigger
                 string line = $"{prefix}{upgradeNames[i]} (Level {level}) [{costText}]";
                 upgradeListBox.Items.Add(line);
             }
+
+            // Add Fuel Refill option
+            int fuelRefillIndex = upgradeNames.Length;
+            string fuelRefillPrefix = (selectedUpgrade == fuelRefillIndex) ? "> " : "  ";
+            string fuelRefillStatus = (mainForm.fuelTankStatus < mainForm.fuelTankCapacity) ? "$50" : "FULL";
+            string fuelRefillLine = $"{fuelRefillPrefix}Fuel Refill [{fuelRefillStatus}]";
+            upgradeListBox.Items.Add(fuelRefillLine);
+
             // Add UFO Repair Part option
-            string ufoPrefix = (selectedUpgrade == upgradeNames.Length) ? "> " : "  ";
+            string ufoPrefix = (selectedUpgrade == fuelRefillIndex + 1) ? "> " : "  ";
             string ufoStatus = mainForm.ufoPart ? "BOUGHT" : "$1000";
             string ufoLine = $"{ufoPrefix}UFO Repair Part [{ufoStatus}]";
             upgradeListBox.Items.Add(ufoLine);
@@ -90,7 +98,7 @@ namespace UfoDigger
         // Handles keyboard inputs for navigating and upgrading
         private void Workbench_KeyDown(object sender, KeyEventArgs e)
         {
-            int optionsCount = upgradeNames.Length + 1; // +1 for UFO Repair Part
+            int optionsCount = upgradeNames.Length + 2; // +2 for Fuel Refill and UFO Repair Part
             if (e.KeyCode == Keys.W)
             {
                 selectedUpgrade = (selectedUpgrade - 1 + optionsCount) % optionsCount;
@@ -117,8 +125,31 @@ namespace UfoDigger
 
         private void TryUpgradeSelected()
         {
-            // Logic to handle purchase of the UFO Repair Part
-            if (selectedUpgrade == upgradeNames.Length)
+            int fuelRefillIndex = upgradeNames.Length;
+            int ufoIndex = upgradeNames.Length + 1;
+
+            // Fuel Refill logic
+            if (selectedUpgrade == fuelRefillIndex)
+            {
+                if (mainForm.fuelTankStatus >= mainForm.fuelTankCapacity)
+                {
+                    MessageBox.Show("Fuel tank is already full!", "Fuel Refill", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+                if (mainForm.amountOfMoney < 50)
+                {
+                    MessageBox.Show("Not enough money to refill fuel!", "Fuel Refill", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                mainForm.amountOfMoney -= 50;
+                mainForm.fuelTankStatus = mainForm.fuelTankCapacity;
+                MessageBox.Show("Fuel tank refilled!", "Fuel Refill", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                UpdateWB();
+                return;
+            }
+
+            // UFO Repair Part logic
+            if (selectedUpgrade == ufoIndex)
             {
                 if (mainForm.ufoPart)
                 {
@@ -130,7 +161,7 @@ namespace UfoDigger
                     mainForm.amountOfMoney -= 1000;
                     mainForm.ufoPart = true;
                     MessageBox.Show("You bought the UFO Repair Part! The game is now over.", "Congratulations!", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    Application.Exit(); // If other method of ending the game is preferred, replace this line, it is quite abrupt ending
+                    Application.Exit();
                 }
                 else
                 {
@@ -140,7 +171,7 @@ namespace UfoDigger
                 return;
             }
 
-            // Check if an upgrade is selected and displays message if not enough money or already at max level
+            // Upgrade logic for Speed, Trunk Capacity, and Fuel
             int currentLevel = GetUpgradeLevels(selectedUpgrade);
 
             if (currentLevel >= 10)
@@ -148,8 +179,8 @@ namespace UfoDigger
                 MessageBox.Show("This upgrade is already at max level!", "Upgrade", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
-
-            int cost = GetUpgradeCost(currentLevel + 1);
+            
+            int cost = GetUpgradeCost(currentLevel + 1); // Calculate the cost for the next level upgrade
             if (mainForm.amountOfMoney >= cost)
             {
                 mainForm.amountOfMoney -= cost;
@@ -165,8 +196,12 @@ namespace UfoDigger
                         mainForm.carTrunkCapacity = mainForm.trunkUpgradeLvl;
                         break;
                     case 2:
-                        mainForm.fuelUpgradeLvl = Math.Min(currentLevel + 1, 10);
-                        mainForm.fuelTankCapacity += 2;
+                        if (mainForm.fuelUpgradeLvl < 10)
+                        {
+                            mainForm.fuelUpgradeLvl = Math.Min(currentLevel + 1, 10);
+                            mainForm.fuelTankCapacity += 50;
+                            mainForm.fuelTankStatus = mainForm.fuelTankCapacity;
+                        }
                         break;
                 }
                 UpdateWB();

@@ -41,6 +41,7 @@
             this.labelPhone = new System.Windows.Forms.Label();
             this.player1 = new UfoDigger.GameObjects.Player();
             this.labelTrunkSpace = new System.Windows.Forms.Label();
+            this.labelFuelLeft = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxWorkbench)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPhone)).BeginInit();
@@ -61,7 +62,7 @@
             // 
             this.pictureBoxWorkbench.Image = global::UfoDigger.Properties.Resources.workbenchtmp;
             this.pictureBoxWorkbench.Location = new System.Drawing.Point(521, 2);
-            this.pictureBoxWorkbench.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pictureBoxWorkbench.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBoxWorkbench.Name = "pictureBoxWorkbench";
             this.pictureBoxWorkbench.Size = new System.Drawing.Size(533, 308);
             this.pictureBoxWorkbench.TabIndex = 2;
@@ -71,7 +72,7 @@
             // 
             this.pictureBoxPhone.Image = global::UfoDigger.Properties.Resources.phonetmp;
             this.pictureBoxPhone.Location = new System.Drawing.Point(291, 2);
-            this.pictureBoxPhone.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pictureBoxPhone.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBoxPhone.Name = "pictureBoxPhone";
             this.pictureBoxPhone.Size = new System.Drawing.Size(223, 154);
             this.pictureBoxPhone.TabIndex = 3;
@@ -81,7 +82,7 @@
             // 
             this.pictureBoxPizzaTable.Image = global::UfoDigger.Properties.Resources.pizzatmp;
             this.pictureBoxPizzaTable.Location = new System.Drawing.Point(16, 2);
-            this.pictureBoxPizzaTable.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pictureBoxPizzaTable.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBoxPizzaTable.Name = "pictureBoxPizzaTable";
             this.pictureBoxPizzaTable.Size = new System.Drawing.Size(267, 246);
             this.pictureBoxPizzaTable.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -156,7 +157,7 @@
             // player1
             // 
             this.player1.Location = new System.Drawing.Point(109, 465);
-            this.player1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.player1.Margin = new System.Windows.Forms.Padding(4);
             this.player1.Name = "player1";
             this.player1.Size = new System.Drawing.Size(85, 79);
             this.player1.TabIndex = 0;
@@ -171,11 +172,22 @@
             this.labelTrunkSpace.TabIndex = 10;
             this.labelTrunkSpace.Text = "Available trunk space:";
             // 
+            // labelFuelLeft
+            // 
+            this.labelFuelLeft.AutoSize = true;
+            this.labelFuelLeft.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelFuelLeft.Location = new System.Drawing.Point(55, 580);
+            this.labelFuelLeft.Name = "labelFuelLeft";
+            this.labelFuelLeft.Size = new System.Drawing.Size(150, 25);
+            this.labelFuelLeft.TabIndex = 11;
+            this.labelFuelLeft.Text = "Fuel in the tank:";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1067, 690);
+            this.Controls.Add(this.labelFuelLeft);
             this.Controls.Add(this.labelTrunkSpace);
             this.Controls.Add(this.labelPhone);
             this.Controls.Add(this.labelDelivery);
@@ -188,7 +200,7 @@
             this.Controls.Add(this.pictureBoxWorkbench);
             this.Controls.Add(this.pictureBoxCar);
             this.KeyPreview = true;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -216,6 +228,7 @@
         private System.Windows.Forms.Label labelDelivery;
         private System.Windows.Forms.Label labelPhone;
         private System.Windows.Forms.Label labelTrunkSpace;
+        private System.Windows.Forms.Label labelFuelLeft;
     }
 }
 

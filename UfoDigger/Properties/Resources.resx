@@ -127,6 +127,9 @@
   <data name="autotmpdelivery" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>placeholders\autotmpdelivery.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="canister" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\canister.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="dresiarze" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>placeholders\dresiarze.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -156,6 +159,9 @@
   </data>
   <data name="phonetmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>placeholders\phonetmp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="pizza" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pizza.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="pizzatmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>placeholders\pizzatmp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

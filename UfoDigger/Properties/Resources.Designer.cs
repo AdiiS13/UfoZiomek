@@ -93,6 +93,16 @@ namespace UfoDigger.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap canister {
+            get {
+                object obj = ResourceManager.GetObject("canister", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap dresiarze {
             get {
                 object obj = ResourceManager.GetObject("dresiarze", resourceCulture);
@@ -186,6 +196,16 @@ namespace UfoDigger.Properties {
         internal static System.Drawing.Bitmap phonetmp {
             get {
                 object obj = ResourceManager.GetObject("phonetmp", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap pizza {
+            get {
+                object obj = ResourceManager.GetObject("pizza", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
