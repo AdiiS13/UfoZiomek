@@ -17,19 +17,20 @@ namespace UfoDigger
         [DllImport("user32.dll")]
         private static extern short GetAsyncKeyState(Keys vKeys);
 
-        public int amountOfMoney = 2000; // Current value is only for testing purposes, remember to change it later!!!
+        public int amountOfMoney = 1000; // Current value is only for testing purposes, remember to change it later!!!
         public int carSpeed = 10;
         public int carTrunkCapacity = 1;
         public int carTrunkPizzaInside = 0;
         public int fuelTankCapacity = 100;
         public int fuelTankStatus = 0; // Saves the current fuel level
         public int numberOfUpgrades = 0;
-        public int singlePizzaValue = 1;
+        public int singlePizzaValue = 5;
         DeliveryCar deliveryCar = new DeliveryCar();
         public bool hasPizzaInHand = false;
         public bool hasFullTrunk = false;
 
         public bool ufoPart = false;
+        public int finalUpgradeDone = 50;
 
         //Saves the upgrade levels for the car
         public int speedUpgradeLvl = 1;
@@ -94,10 +95,10 @@ namespace UfoDigger
                     if ((GetAsyncKeyState(Keys.O) & 0x8000) != 0)
                     {
                         // Check the trunk capacity
-                        if ((carTrunkPizzaInside + singlePizzaValue) <= carTrunkCapacity)
+                        if ((carTrunkPizzaInside) < carTrunkCapacity)
                         {
                             PizzaInteractions("o");
-                            carTrunkPizzaInside += singlePizzaValue;
+                            carTrunkPizzaInside += 1;
                         }
                         else
                         {
@@ -139,6 +140,16 @@ namespace UfoDigger
             else
                 MakeLabelsInvisible();
 
+            if (ufoPart)
+            {
+                //przypomnienie co 5s ze telefon zadzwonil
+                if (finalUpgradeDone > 50)
+                {
+                    finalUpgradeDone = 0;
+                    MessageBox.Show("Telefon właśnie zadzwonił! :O chyba powinienem odebrać", "WUT Telefon?!");
+                }
+            }
+            finalUpgradeDone++;
             // Update the trunk space label
             labelTrunkSpace.Text = $"Available space: {carTrunkPizzaInside}/{carTrunkCapacity}";
         }
@@ -170,6 +181,18 @@ namespace UfoDigger
             timerForm1.Enabled = false;
             player1.timerUpdate.Enabled = false;
             //TU TREŚĆ FUNKCJI z jakimś przyjmowaniem zamówień
+            if (!ufoPart)
+            {
+                MessageBox.Show("Telefon, relikt przeszłości... Na szczęście wszystko teraz odbywa się przez aplikację, nie trzeba czekać na to aż klient zadzwoni, a ja mogę dostarczyć tyle pizzy ile mi się zmieści do bagażnika :D", "głuchy telefon", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                DialogResult res = MessageBox.Show("Nareszcie udało mi się naprawić statek! W końcu mogę wrócić do domu!", "Koniec gry", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk);
+                if (res == DialogResult.OK)
+                {
+                    Application.Exit();
+                }
+            }
             timerForm1.Enabled = true;
             player1.timerUpdate.Enabled = true;
         }

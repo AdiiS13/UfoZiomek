@@ -160,8 +160,8 @@ namespace UfoDigger
                 {
                     mainForm.amountOfMoney -= 1000;
                     mainForm.ufoPart = true;
-                    MessageBox.Show("You bought the UFO Repair Part! The game is now over.", "Congratulations!", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    Application.Exit();
+                    //MessageBox.Show("You bought the UFO Repair Part! The game is now over.", "Congratulations!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    //Application.Exit();
                 }
                 else
                 {

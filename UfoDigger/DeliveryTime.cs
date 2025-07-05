@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,9 +33,13 @@ namespace UfoDigger
 
         private List<PictureBox> housesList = new List<PictureBox>();
         private List<Label> housesLabel = new List<Label>();
+        private List<PictureBox> canisterList = new List<PictureBox>();
+        private List<Label> canisterLabel = new List<Label>();
         private List<PictureBox> thugsList = new List<PictureBox>();
         private Timer thugsTimer = new Timer();
         private bool checkIfItsFightTime = true;
+        private bool fuelSpawned = false;
+        private int canistersInTrunk = 0;
 
         private Timer fuelTimer = new Timer();
         private int currentFuel;
@@ -108,6 +113,7 @@ namespace UfoDigger
             fuelTimer.Tick += FuelTimer_Tick;
             fuelTimer.Start();
 
+            SpawnFuelCanisters();
             SpawnHouses(houseCount);
             SpawnThugs(numberOfUpgrades);
             deliveryCar1.speed = carSpeed;
@@ -204,11 +210,21 @@ namespace UfoDigger
             thugsTimer.Stop();
             timer1.Stop();
             checkIfItsFightTime = false;
+            fuelTimer.Stop();
+
             thugsFight.Show();
 
             thugsFight.FormClosed += async (s, args) =>
             {
                 timer1.Start();
+                fuelTimer.Start();
+                string fightResult = thugsFight.didUfoWon;
+                if (fightResult == "L")
+                {
+                    money = money / 2;
+                    moneyL.Text = money.ToString();
+                    currentFuel = currentFuel / 2;
+                }
                 await Task.Delay(3000);
                 checkIfItsFightTime = true;
                 thugsTimer.Start();
@@ -217,7 +233,38 @@ namespace UfoDigger
 
         private void SpawnFuelCanisters()
         {
-            throw new NotImplementedException();
+            if (!fuelSpawned)
+            {
+                Random rng = new Random();
+
+                for (int i = 0; (houseCount * 2) > i; i++)
+                {
+                    PictureBox fuelC = new PictureBox();
+                    fuelC.Size = new Size(50, 50);
+                    fuelC.Image = global::UfoDigger.Properties.Resources.canister;
+                    int maxX = this.ClientSize.Width - fuelC.Width;
+                    int maxY = this.ClientSize.Height - fuelC.Height;
+                    int x = rng.Next(0, Math.Max(1, maxX));
+                    int y = rng.Next(0, Math.Max(1, maxY - 50)); //-50 zeby bylo miejsce na UI
+
+                    fuelC.Location = new Point(x, y);
+                    fuelC.SizeMode = PictureBoxSizeMode.Zoom;
+
+                    Label label = new Label();
+                    label.Text = "press F to pick up";
+                    label.BackColor = Color.Yellow;
+                    label.Location = new Point(x - 25, y + 50);
+                    label.Visible = false;
+
+                    this.Controls.Add(fuelC);
+                    this.Controls.Add(label);
+                    canisterList.Add(fuelC);
+                    canisterLabel.Add(label);
+                    fuelC.BringToFront();
+                    label.BringToFront();
+                    fuelSpawned = true;
+                }
+            }
         }
 
         private void SpawnHouses(int pizzasToDeliver)
@@ -296,6 +343,18 @@ namespace UfoDigger
                 deliveryCar1.pictureBox1.RectangleToScreen(deliveryCar1.pictureBox1.ClientRectangle)
                 .IntersectsWith(thug.RectangleToScreen(thug.ClientRectangle)));
 
+            var carIntersectsCanister = canisterList.FirstOrDefault(fuelC =>
+                deliveryCar1.pictureBox1.RectangleToScreen(deliveryCar1.pictureBox1.ClientRectangle)
+                .IntersectsWith(fuelC.RectangleToScreen(fuelC.ClientRectangle)));
+
+            if (canisterList.Count > 0 && canistersInTrunk > 0 )
+            {
+                if ((GetAsyncKeyState(Keys.Z) & 0x8000) != 0)
+                {
+                    TankTheFuel();
+                }
+            }
+
             if (carIntersectsHouse != null)
             {
                 int index = housesList.IndexOf(carIntersectsHouse);
@@ -306,8 +365,18 @@ namespace UfoDigger
                     DeliverDaPizza(index);
                 }
             }
-
             else makeLabelsInvisible();
+
+            if (carIntersectsCanister != null && trunkSize > (pizzaInTrunk + canistersInTrunk)) 
+            {
+                int ind = canisterList.IndexOf(carIntersectsCanister);
+                canisterLabel[ind].Visible = true;
+
+                if ((GetAsyncKeyState(Keys.F) & 0x8000) != 0)
+                {
+                    PickUpCanister(ind);
+                }
+            }
 
             if (thugIntersectsCar != null && checkIfItsFightTime) 
             {
@@ -317,6 +386,29 @@ namespace UfoDigger
             moneyL.Text = money.ToString();
             // Update the trunk status label
             labelTrunkStatus.Text = $"Pizzas in Trunk: {pizzaInTrunk}/{trunkSize}";
+            canisterNumberLabel.Text = $"Canisters in Trunk: {canistersInTrunk}";
+        }
+
+        private void TankTheFuel()
+        {
+            currentFuel += 10;
+            canistersInTrunk--;
+        }
+
+        private void PickUpCanister(int id)
+        {
+            //currentFuel += 5;
+            canistersInTrunk++;
+
+            //remove trash
+            PictureBox can = canisterList[id];
+            Label lab = canisterLabel[id];
+            this.Controls.Remove(can);
+            this.Controls.Remove(lab);
+            can.Dispose();
+            lab.Dispose();
+            canisterList.RemoveAt(id);
+            canisterLabel.RemoveAt(id);
         }
 
         private void DeliverDaPizza(int id)
