@@ -9,6 +9,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace UfoDigger
 {
@@ -54,6 +55,8 @@ namespace UfoDigger
         // Reference to other forms to keep track if they are open
         private Workbench workbenchForm = null;
         private DeliveryTime deliveryTimeForm = null;
+
+        private Stopwatch deliveryStopwatch = new Stopwatch();
 
         public DeliveryTime(Form1 mainForm)
         {
@@ -121,6 +124,8 @@ namespace UfoDigger
             SpawnHouses(houseCount);
             SpawnThugs(numberOfUpgrades);
             deliveryCar1.speed = carSpeed;
+
+            deliveryStopwatch.Restart(); // Start timing when delivery begins
         }
 
         // Tick event for the fuel timer and checks fuel level
@@ -453,15 +458,16 @@ namespace UfoDigger
             int money = moneyEarned;
             string status = deliveryStatus;
 
-            // Schedule the summary form to open before closing this form
+            deliveryStopwatch.Stop();
+            TimeSpan deliveryTime = deliveryStopwatch.Elapsed;
+
             this.Invoke((Action)(() =>
             {
-                var summary = new DeliverySummary(this, mainForm); // mainForm is your Form1 instance
-                summary.ShowSummary(pizzas, money, status);
+                var summary = new DeliverySummary(this, mainForm);
+                summary.ShowSummary(pizzas, houseCount, money, status, deliveryTime);
                 summary.ShowDialog();
             }));
 
-            // Close this form after the summary dialog is shown
             this.Close();
         }
 

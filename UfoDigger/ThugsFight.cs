@@ -20,6 +20,8 @@ namespace UfoDigger
         {
             InitializeComponent();
             this.Activate();
+            this.KeyDown += KeyListener;
+            this.KeyPreview = true;
         }
 
         private void ThugsFight_Load(object sender, EventArgs e)

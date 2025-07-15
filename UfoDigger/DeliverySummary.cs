@@ -44,12 +44,20 @@ namespace UfoDigger
         }
 
         // Information to be displayed in the summary, more needed to be added
-        public void ShowSummary(int pizzasDelivered, int moneyEarned, string status)
+        public void ShowSummary(int pizzasDelivered, int houseCount, int moneyEarned, string status, TimeSpan deliveryTime)
         {
             listSummary.Items.Clear();
-            listSummary.Items.Add($"Pizzas delivered: {pizzasDelivered}");
-            listSummary.Items.Add($"Money earned: {moneyEarned}");
             listSummary.Items.Add($"Summary Status: {status}");
+            listSummary.Items.Add($"Delivery Time: {deliveryTime.ToString(@"mm\:ss")}");
+            listSummary.Items.Add($"Pizzas delivered: {pizzasDelivered} / {_mainForm.carTrunkPizzaInside}");
+            listSummary.Items.Add($"Money earned: {moneyEarned}");
+            listSummary.Items.Add($"Thug encounters : "); //Placeholder for how many thugs were encountered
+            listSummary.Items.Add($"Money lost: "); // Placeholder for money lost, if applicable, this will add up money lost from thugs and when ran out of fuel
+
+            // Placeholder for total money, this will add up money earned and lost
+            listSummary.Items.Add($" "); // Empty line for better readability
+            listSummary.Items.Add($"Total money: "); // totalMoney = moneyEarned - moneyLost;
+
         }
 
         private void DeliverySummary_KeyDown(object sender, KeyEventArgs e)
