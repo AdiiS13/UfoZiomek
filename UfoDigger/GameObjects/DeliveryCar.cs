@@ -77,24 +77,38 @@ namespace UfoDigger
             if (parentForm == null) return;
 
             //aktualizowanie pozycji auta z dynamicznymi ograniczeniami zaleznymi od rozmiaru okna
-            if (Core.IsUp && (Top - speed > 0))
+            //now it also takes into account speed of car after upgrades
+            // Move up
+            if (Core.IsUp && Top > 0)
             {
-                Top -= speed;
-                rotationAngle = 270;            
+                int moveAmount = Math.Min(speed, Top);
+                Top -= moveAmount;
+                rotationAngle = 270;
             }
-            if (Core.IsDown && (Bottom + speed) < parentForm.ClientRectangle.Height)
-            {  
-                Top += speed;
-                rotationAngle = 90;            
+
+            // Move down
+            if (Core.IsDown && Top + Height < parentForm.ClientSize.Height)
+            {
+                int maxDistance = parentForm.ClientSize.Height - (Top + Height);
+                int moveAmount = Math.Min(speed, maxDistance);
+                Top += moveAmount;
+                rotationAngle = 90;
             }
-            if (Core.IsLeft && (Left - speed) > 0)
-            { 
-                Left -= speed;
+
+            // Move left
+            if (Core.IsLeft && Left > 0)
+            {
+                int moveAmount = Math.Min(speed, Left);
+                Left -= moveAmount;
                 rotationAngle = 180;
             }
-            if (Core.IsRight && (Right + speed) < parentForm.ClientRectangle.Width)
-            { 
-                Left += speed;
+
+            // Move right
+            if (Core.IsRight && Left + Width < parentForm.ClientSize.Width)
+            {
+                int maxDistance = parentForm.ClientSize.Width - (Left + Width);
+                int moveAmount = Math.Min(speed, maxDistance);
+                Left += moveAmount;
                 rotationAngle = 0;
             }
 
@@ -123,9 +137,26 @@ namespace UfoDigger
             return RotateFlipType.RotateNoneFlipNone;
         }
 
+        private void DrawDebugRectangles()
+        {
+            using (Graphics g = parentForm.CreateGraphics())
+            {
+                g.Clear(parentForm.BackColor);
+                g.DrawRectangle(Pens.Red, this.Bounds); // Outline of the car control
+                g.DrawRectangle(Pens.Blue, pictureBox1.Bounds); // Outline of the image inside
+            }
+        }
+
         private void pictureBox1_Click(object sender, EventArgs e)
         {
 
+        }
+
+        //this is just for debugging purposes, it draws a rectangle around the car control, delete it when not needed
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+            e.Graphics.DrawRectangle(Pens.Red, 0, 0, Width - 1, Height - 1);
         }
     }
 }
