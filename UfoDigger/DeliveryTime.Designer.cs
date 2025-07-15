@@ -41,8 +41,8 @@
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
-            this.deliveryCar1 = new UfoDigger.DeliveryCar();
             this.canisterNumberLabel = new System.Windows.Forms.Label();
+            this.deliveryCar1 = new UfoDigger.DeliveryCar();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -60,9 +60,10 @@
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.Yellow;
-            this.label1.Location = new System.Drawing.Point(12, 9);
+            this.label1.Location = new System.Drawing.Point(16, 11);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(84, 25);
+            this.label1.Size = new System.Drawing.Size(102, 29);
             this.label1.TabIndex = 1;
             this.label1.Text = "Money:";
             // 
@@ -72,9 +73,10 @@
             this.moneyL.BackColor = System.Drawing.Color.Transparent;
             this.moneyL.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.moneyL.ForeColor = System.Drawing.Color.Gold;
-            this.moneyL.Location = new System.Drawing.Point(17, 38);
+            this.moneyL.Location = new System.Drawing.Point(23, 47);
+            this.moneyL.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.moneyL.Name = "moneyL";
-            this.moneyL.Size = new System.Drawing.Size(30, 31);
+            this.moneyL.Size = new System.Drawing.Size(37, 39);
             this.moneyL.TabIndex = 2;
             this.moneyL.Text = "0";
             // 
@@ -84,20 +86,19 @@
             this.labelTrunkStatus.BackColor = System.Drawing.Color.Transparent;
             this.labelTrunkStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelTrunkStatus.ForeColor = System.Drawing.Color.Gold;
-            this.labelTrunkStatus.Location = new System.Drawing.Point(199, 19);
-            this.labelTrunkStatus.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelTrunkStatus.Location = new System.Drawing.Point(265, 23);
             this.labelTrunkStatus.Name = "labelTrunkStatus";
-            this.labelTrunkStatus.Size = new System.Drawing.Size(190, 26);
+            this.labelTrunkStatus.Size = new System.Drawing.Size(245, 32);
             this.labelTrunkStatus.TabIndex = 3;
             this.labelTrunkStatus.Text = "Pizzas in the trunk";
             // 
             // pictureBox1
             // 
             this.pictureBox1.Image = global::UfoDigger.Properties.Resources.pizza;
-            this.pictureBox1.Location = new System.Drawing.Point(50, 794);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pictureBox1.Location = new System.Drawing.Point(69, 768);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(46, 52);
+            this.pictureBox1.Size = new System.Drawing.Size(61, 64);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 4;
             this.pictureBox1.TabStop = false;
@@ -105,20 +106,20 @@
             // pictureBox2
             // 
             this.pictureBox2.Image = global::UfoDigger.Properties.Resources.canister;
-            this.pictureBox2.Location = new System.Drawing.Point(122, 794);
-            this.pictureBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pictureBox2.Location = new System.Drawing.Point(165, 768);
+            this.pictureBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(52, 52);
+            this.pictureBox2.Size = new System.Drawing.Size(69, 64);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox2.TabIndex = 5;
             this.pictureBox2.TabStop = false;
             // 
             // fuelGauge
             // 
-            this.fuelGauge.Location = new System.Drawing.Point(501, 798);
-            this.fuelGauge.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.fuelGauge.Location = new System.Drawing.Point(670, 773);
+            this.fuelGauge.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.fuelGauge.Name = "fuelGauge";
-            this.fuelGauge.Size = new System.Drawing.Size(496, 48);
+            this.fuelGauge.Size = new System.Drawing.Size(661, 59);
             this.fuelGauge.TabIndex = 6;
             this.fuelGauge.Value = 100;
             // 
@@ -126,20 +127,19 @@
             // 
             this.labelFuelStatus.AutoSize = true;
             this.labelFuelStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelFuelStatus.Location = new System.Drawing.Point(511, 813);
-            this.labelFuelStatus.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelFuelStatus.Location = new System.Drawing.Point(683, 792);
             this.labelFuelStatus.Name = "labelFuelStatus";
-            this.labelFuelStatus.Size = new System.Drawing.Size(83, 20);
+            this.labelFuelStatus.Size = new System.Drawing.Size(100, 25);
             this.labelFuelStatus.TabIndex = 7;
             this.labelFuelStatus.Text = "fuel status";
             // 
             // textBox1
             // 
             this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.Location = new System.Drawing.Point(87, 788);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBox1.Location = new System.Drawing.Point(118, 761);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(20, 26);
+            this.textBox1.Size = new System.Drawing.Size(25, 30);
             this.textBox1.TabIndex = 8;
             this.textBox1.Text = "X";
             this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -147,41 +147,31 @@
             // textBox2
             // 
             this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox2.Location = new System.Drawing.Point(165, 788);
-            this.textBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBox2.Location = new System.Drawing.Point(222, 761);
+            this.textBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(21, 26);
+            this.textBox2.Size = new System.Drawing.Size(27, 30);
             this.textBox2.TabIndex = 9;
             this.textBox2.Text = "Z";
             this.textBox2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // pictureBox3
             // 
-            this.pictureBox3.Location = new System.Drawing.Point(50, 798);
-            this.pictureBox3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pictureBox3.Location = new System.Drawing.Point(69, 773);
+            this.pictureBox3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(46, 48);
+            this.pictureBox3.Size = new System.Drawing.Size(61, 59);
             this.pictureBox3.TabIndex = 10;
             this.pictureBox3.TabStop = false;
             // 
             // pictureBox4
             // 
-            this.pictureBox4.Location = new System.Drawing.Point(122, 794);
-            this.pictureBox4.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pictureBox4.Location = new System.Drawing.Point(165, 768);
+            this.pictureBox4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pictureBox4.Name = "pictureBox4";
-            this.pictureBox4.Size = new System.Drawing.Size(52, 52);
+            this.pictureBox4.Size = new System.Drawing.Size(69, 64);
             this.pictureBox4.TabIndex = 11;
             this.pictureBox4.TabStop = false;
-            // 
-            // deliveryCar1
-            // 
-            this.deliveryCar1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.deliveryCar1.BackColor = System.Drawing.Color.Transparent;
-            this.deliveryCar1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.deliveryCar1.Location = new System.Drawing.Point(155, 138);
-            this.deliveryCar1.Name = "deliveryCar1";
-            this.deliveryCar1.Size = new System.Drawing.Size(100, 100);
-            this.deliveryCar1.TabIndex = 0;
             // 
             // canisterNumberLabel
             // 
@@ -189,19 +179,29 @@
             this.canisterNumberLabel.BackColor = System.Drawing.Color.Transparent;
             this.canisterNumberLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.canisterNumberLabel.ForeColor = System.Drawing.Color.Gold;
-            this.canisterNumberLabel.Location = new System.Drawing.Point(172, 45);
-            this.canisterNumberLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.canisterNumberLabel.Location = new System.Drawing.Point(229, 55);
             this.canisterNumberLabel.Name = "canisterNumberLabel";
-            this.canisterNumberLabel.Size = new System.Drawing.Size(217, 26);
+            this.canisterNumberLabel.Size = new System.Drawing.Size(281, 32);
             this.canisterNumberLabel.TabIndex = 12;
             this.canisterNumberLabel.Text = "Canisters in the trunk";
             // 
+            // deliveryCar1
+            // 
+            this.deliveryCar1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.deliveryCar1.BackColor = System.Drawing.Color.Transparent;
+            this.deliveryCar1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.deliveryCar1.Location = new System.Drawing.Point(207, 170);
+            this.deliveryCar1.Margin = new System.Windows.Forms.Padding(4);
+            this.deliveryCar1.Name = "deliveryCar1";
+            this.deliveryCar1.Size = new System.Drawing.Size(133, 123);
+            this.deliveryCar1.TabIndex = 0;
+            // 
             // DeliveryTime
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::UfoDigger.Properties.Resources.grassland;
-            this.ClientSize = new System.Drawing.Size(1008, 857);
+            this.ClientSize = new System.Drawing.Size(1362, 873);
             this.Controls.Add(this.canisterNumberLabel);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.textBox1);
@@ -216,6 +216,7 @@
             this.Controls.Add(this.pictureBox3);
             this.Controls.Add(this.pictureBox4);
             this.KeyPreview = true;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "DeliveryTime";
             this.Text = "DeliveryTime";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.DeliveryTime_FormClosing);

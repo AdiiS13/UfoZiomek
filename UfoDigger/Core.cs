@@ -20,5 +20,15 @@ namespace UfoDigger
         public static bool IsDown = false;
         public static bool IsLeft = false;
         public static bool IsRight = false;
+
+        // Resets the movement flags to false
+        public static void ResetMovement()
+        {
+            IsUp = false;
+            IsDown = false;
+            IsLeft = false;
+            IsRight = false;
+        }
     }
-}
+    
+    }

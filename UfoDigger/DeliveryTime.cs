@@ -51,6 +51,10 @@ namespace UfoDigger
 
         private Form1 mainForm; // Reference to the main form
 
+        // Reference to other forms to keep track if they are open
+        private Workbench workbenchForm = null;
+        private DeliveryTime deliveryTimeForm = null;
+
         public DeliveryTime(Form1 mainForm)
         {
             InitializeComponent();
@@ -206,6 +210,7 @@ namespace UfoDigger
 
         private void FightWithThugs()
         {
+            Core.ResetMovement(); // Prevent stuck movement when fight starts
             ThugsFight thugsFight = new ThugsFight();
             thugsTimer.Stop();
             timer1.Stop();

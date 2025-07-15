@@ -37,6 +37,10 @@ namespace UfoDigger
         public int trunkUpgradeLvl = 1;
         public int fuelUpgradeLvl = 1;
 
+        //Keeps track of the opened forms
+        private Workbench workbenchForm;
+        private DeliveryTime deliveryTimeForm;
+
         public Form1()
         {
             InitializeComponent();
@@ -154,24 +158,32 @@ namespace UfoDigger
             labelTrunkSpace.Text = $"Available space: {carTrunkPizzaInside}/{carTrunkCapacity}";
         }
 
-        
-
         void WorkbenchInteractions()
         {
-            // Pass the current instance of Form1 to the Workbench constructor
-            Workbench workbench = new Workbench(this);
-
-            timerForm1.Enabled = false;
-            player1.timerUpdate.Enabled = false;
-
-            // Update fuel label after workbench closes (in case upgrades changed capacity)
-            workbench.FormClosed += (s, args) =>
+            Core.ResetMovement(); // Reset movement keys before switching forms
+            // Check if the workbench form is already open
+            if (workbenchForm == null || workbenchForm.IsDisposed)
             {
-                UpdateFuelLabel();
-            };
+                // If not, create a new instance of the Workbench form
+                workbenchForm = new Workbench(this);
 
-            // Shows the Workbench form with the upgrades
-            workbench.Show(this);
+                timerForm1.Enabled = false;
+                player1.timerUpdate.Enabled = false;
+
+                // Pass the necessary data to the workbench form
+                workbenchForm.FormClosed += (s, args) =>
+                {
+                    UpdateFuelLabel();
+                    workbenchForm = null; // Allow opening again after close
+                    Core.ResetMovement(); // Reset again on close
+                };
+
+                workbenchForm.Show(this);
+            }
+            else
+            {
+                workbenchForm.Focus();
+            }
             timerForm1.Enabled = true;
             player1.timerUpdate.Enabled = true;
         }
@@ -217,43 +229,53 @@ namespace UfoDigger
             timerForm1.Enabled = true;
             player1.timerUpdate.Enabled = true;
         }
+
         private void CarInteractions()
         {
-            DeliveryTime deliveryTime = new DeliveryTime(this);
-
-            timerForm1.Enabled = false;
-            player1.timerUpdate.Enabled = false;
-            deliveryCar.timerCarMovement.Start();
-
-            //przekazanie danych do dostawy
-            deliveryTime.money = amountOfMoney;
-            deliveryTime.houseCount = carTrunkPizzaInside;
-            deliveryTime.pizzaInTrunk = carTrunkPizzaInside;
-            deliveryTime.trunkSize = carTrunkCapacity;
-            deliveryTime.fuelTankCapacity = fuelTankCapacity;
-            deliveryTime.fuelTankStatus = fuelTankStatus;
-            deliveryTime.numberOfUpgrades = numberOfUpgrades;
-            deliveryTime.payedPerPizza = singlePizzaValue;
-            deliveryTime.carSpeed = carSpeed;
-
-            //odczyt danych po zamknieciu okienka
-            deliveryTime.FormClosed += (s, args) =>
+            Core.ResetMovement(); // Reset movement keys before switching forms
+            //check if the delivery time form is already open
+            if (deliveryTimeForm == null || deliveryTimeForm.IsDisposed)
             {
-                amountOfMoney = deliveryTime.money;
-                fuelTankStatus = deliveryTime.fuelTankStatus;
-                fuelTankCapacity = deliveryTime.fuelTankCapacity;
-                if (deliveryTime.ShouldResetTrunk) // If any pizza were left in the trunk, reset it
-                    carTrunkPizzaInside = 0;
-                UpdateFuelLabel();
-            };
+                deliveryTimeForm = new DeliveryTime(this);
 
-            //pokazuje okienko z losowo wygenerowaną mapą dostawy - tam się jeździ i dostarcza
-            deliveryTime.Show(this);
+                timerForm1.Enabled = false;
+                player1.timerUpdate.Enabled = false;
+                deliveryCar.timerCarMovement.Start();
+
+                // przekazanie danych do dostawy
+                deliveryTimeForm.money = amountOfMoney;
+                deliveryTimeForm.houseCount = carTrunkPizzaInside;
+                deliveryTimeForm.pizzaInTrunk = carTrunkPizzaInside;
+                deliveryTimeForm.trunkSize = carTrunkCapacity;
+                deliveryTimeForm.fuelTankCapacity = fuelTankCapacity;
+                deliveryTimeForm.fuelTankStatus = fuelTankStatus;
+                deliveryTimeForm.numberOfUpgrades = numberOfUpgrades;
+                deliveryTimeForm.payedPerPizza = singlePizzaValue;
+                deliveryTimeForm.carSpeed = carSpeed;
+
+                // Handle the form closed event to update the main form variables
+                deliveryTimeForm.FormClosed += (s, args) =>
+                {
+                    amountOfMoney = deliveryTimeForm.money;
+                    fuelTankStatus = deliveryTimeForm.fuelTankStatus;
+                    fuelTankCapacity = deliveryTimeForm.fuelTankCapacity;
+                    if (deliveryTimeForm.ShouldResetTrunk)
+                        carTrunkPizzaInside = 0;
+                    UpdateFuelLabel();
+                    deliveryTimeForm = null; // Allow opening again after close
+                    Core.ResetMovement(); // Reset again on close
+                };
+
+                deliveryTimeForm.Show(this);
+            }
+            else
+            {
+                // If the form is already open, just focus on it
+                deliveryTimeForm.Focus();
+            }
             timerForm1.Enabled = true;
             player1.timerUpdate.Enabled = true;
-
-            // After closing the DeliveryTime form, update the car speed
-            this.carSpeed = deliveryTime.carSpeed;
+            this.carSpeed = deliveryTimeForm.carSpeed;
         }
         
         private void MakeLabelsInvisible()
@@ -270,5 +292,6 @@ namespace UfoDigger
         {
             labelFuelLeft.Text = $"Fuel: {fuelTankStatus}/{fuelTankCapacity}";
         }
+
     }
 }

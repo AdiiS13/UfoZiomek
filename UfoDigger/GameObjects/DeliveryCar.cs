@@ -137,16 +137,6 @@ namespace UfoDigger
             return RotateFlipType.RotateNoneFlipNone;
         }
 
-        private void DrawDebugRectangles()
-        {
-            using (Graphics g = parentForm.CreateGraphics())
-            {
-                g.Clear(parentForm.BackColor);
-                g.DrawRectangle(Pens.Red, this.Bounds); // Outline of the car control
-                g.DrawRectangle(Pens.Blue, pictureBox1.Bounds); // Outline of the image inside
-            }
-        }
-
         private void pictureBox1_Click(object sender, EventArgs e)
         {
 
