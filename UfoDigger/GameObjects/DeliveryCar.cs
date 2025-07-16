@@ -141,12 +141,5 @@ namespace UfoDigger
         {
 
         }
-
-        //this is just for debugging purposes, it draws a rectangle around the car control, delete it when not needed
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            base.OnPaint(e);
-            e.Graphics.DrawRectangle(Pens.Red, 0, 0, Width - 1, Height - 1);
-        }
     }
 }

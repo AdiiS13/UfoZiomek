@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -16,12 +17,15 @@ namespace UfoDigger
         Random random = new Random();
         public string didUfoWon { get; set; }
         private bool areResultsIn = false;
+
+        SoundPlayer fightMusic = new SoundPlayer(global::UfoDigger.Properties.Resources.KSHMR_fx07);
         public ThugsFight()
         {
             InitializeComponent();
             this.Activate();
             this.KeyDown += KeyListener;
             this.KeyPreview = true;
+            fightMusic.PlayLooping();
         }
 
         private void ThugsFight_Load(object sender, EventArgs e)
@@ -113,6 +117,7 @@ namespace UfoDigger
         {
             if (e.KeyCode == Keys.Escape)
             {
+                fightMusic.Stop();
                 this.Close();
                 e.Handled = true;
             }
