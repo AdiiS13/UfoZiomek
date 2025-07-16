@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Media;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Diagnostics;
 
 namespace UfoDigger
 {
@@ -57,6 +58,9 @@ namespace UfoDigger
         private DeliveryTime deliveryTimeForm = null;
 
         private Stopwatch deliveryStopwatch = new Stopwatch();
+
+
+        SoundPlayer deliSound = new SoundPlayer(global::UfoDigger.Properties.Resources.KSHMR_fx16);
 
         public DeliveryTime(Form1 mainForm)
         {
@@ -426,6 +430,8 @@ namespace UfoDigger
             money += payedPerPizza;
             moneyEarned += payedPerPizza;
             pizzasDelivered++;
+
+            deliSound.Play();
 
             if (pizzaInTrunk > 0)
                 pizzaInTrunk--;

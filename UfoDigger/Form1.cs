@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Media;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -41,6 +42,10 @@ namespace UfoDigger
         private Workbench workbenchForm;
         private DeliveryTime deliveryTimeForm;
 
+
+        SoundPlayer bgm = new SoundPlayer(global::UfoDigger.Properties.Resources.KSHMR_fx11);
+        SoundPlayer phone = new SoundPlayer(global::UfoDigger.Properties.Resources.KSHMR_fx08);
+
         public Form1()
         {
             InitializeComponent();
@@ -51,11 +56,15 @@ namespace UfoDigger
             // Set the fuel tank status to full at the start
             fuelTankStatus = fuelTankCapacity;
 
+
+            bgm.PlayLooping();
+
             KeyPreview = true;
             MakeLabelsInvisible();
             deliveryCar.timerCarMovement.Stop();
             UpdateFuelLabel(); // Initialize the label
         }
+
 
         private void OnKeyDown(object sender, KeyEventArgs e)
         {
@@ -146,9 +155,11 @@ namespace UfoDigger
 
             if (ufoPart)
             {
+
                 //przypomnienie co 5s ze telefon zadzwonil
                 if (finalUpgradeDone > 50)
                 {
+                    phone.Play();
                     finalUpgradeDone = 0;
                     MessageBox.Show("Telefon właśnie zadzwonił! :O chyba powinienem odebrać", "WUT Telefon?!");
                 }
@@ -238,6 +249,7 @@ namespace UfoDigger
             {
                 deliveryTimeForm = new DeliveryTime(this);
 
+                bgm.Stop();
                 timerForm1.Enabled = false;
                 player1.timerUpdate.Enabled = false;
                 deliveryCar.timerCarMovement.Start();
@@ -262,6 +274,7 @@ namespace UfoDigger
                     if (deliveryTimeForm.ShouldResetTrunk)
                         carTrunkPizzaInside = 0;
                     UpdateFuelLabel();
+                    bgm.PlayLooping();
                     deliveryTimeForm = null; // Allow opening again after close
                     Core.ResetMovement(); // Reset again on close
                 };
@@ -292,6 +305,5 @@ namespace UfoDigger
         {
             labelFuelLeft.Text = $"Fuel: {fuelTankStatus}/{fuelTankCapacity}";
         }
-
     }
 }

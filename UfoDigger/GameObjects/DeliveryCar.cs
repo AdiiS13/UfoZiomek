@@ -41,12 +41,12 @@ namespace UfoDigger
             // timerCarMovement
             // 
             this.timerCarMovement.Enabled = true;
-            //this.timerCarMovement.Stop();
             this.timerCarMovement.Interval = 25;
             this.timerCarMovement.Tick += new System.EventHandler(this.UpdateCar);
             // 
             // DeliveryCar
             // 
+            this.BackColor = System.Drawing.Color.Transparent;
             this.Controls.Add(this.pictureBox1);
             this.Name = "DeliveryCar";
             this.Size = new System.Drawing.Size(101, 51);

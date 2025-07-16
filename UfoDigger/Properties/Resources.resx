@@ -145,6 +145,18 @@
   <data name="kamienU" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\kamienU.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="KSHMR_fx07" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>placeholders\KSHMR_fx07.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="KSHMR_fx08" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>placeholders\KSHMR_fx08.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="KSHMR_fx11" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>placeholders\KSHMR_fx11.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="KSHMR_fx16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>placeholders\KSHMR_fx16.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="nozyceD" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\nozyceD.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
