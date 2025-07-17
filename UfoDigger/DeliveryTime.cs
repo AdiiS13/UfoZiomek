@@ -54,8 +54,8 @@ namespace UfoDigger
         private Form1 mainForm; // Reference to the main form
 
         // Reference to other forms to keep track if they are open
-        private Workbench workbenchForm = null;
-        private DeliveryTime deliveryTimeForm = null;
+        //private Workbench workbenchForm = null;
+        //private DeliveryTime deliveryTimeForm = null;
 
         private Stopwatch deliveryStopwatch = new Stopwatch();
 
@@ -171,7 +171,7 @@ namespace UfoDigger
             { 
                 PictureBox thug = new PictureBox();
                 thug.Size = new Size(58, 39);
-                thug.Image = global::UfoDigger.Properties.Resources.dresiarze;
+                thug.Image = global::UfoDigger.Properties.Resources.dresy;
                 thug.BackColor = Color.Transparent;
 
                 int maxX = this.ClientSize.Width - thug.Width;
@@ -269,7 +269,7 @@ namespace UfoDigger
                     label.BackColor = Color.Yellow;
                     label.Location = new Point(x - 25, y + 50);
                     label.Visible = false;
-
+                    
                     this.Controls.Add(fuelC);
                     this.Controls.Add(label);
                     canisterList.Add(fuelC);

@@ -103,9 +103,9 @@ namespace UfoDigger.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap dresiarze {
+        internal static System.Drawing.Bitmap dresy {
             get {
-                object obj = ResourceManager.GetObject("dresiarze", resourceCulture);
+                object obj = ResourceManager.GetObject("dresy", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
